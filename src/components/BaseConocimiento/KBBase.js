@@ -11,7 +11,20 @@ import {
   useHistory
 } from "react-router-dom";
 import NuevoArticulo from "./NuevoArticulo";
+import KbService from "../services/KbService";
+import Article from './Article'
 export default class KBBase extends Component {
+  state = {
+    articles: []
+  };
+
+  async componentDidMount() {
+    const kbservice = new KbService();
+    const articles = await kbservice.renderArticles();
+    this.setState({
+      articles
+    });
+  } //.
   render() {
     return <this.kbbase />;
   }
@@ -40,7 +53,7 @@ export default class KBBase extends Component {
                   </Card.Header>
                   <Container fluid className="p-0 m-0">
                     <Row className="m-0">
-                      <Col xs={2} className="p-0">
+                      {/* <Col xs={2} className="p-0">
                         <Card className="m-0 p-0" style={{ height: "30rem" }}>
                           <Card.Body className="p-0">
                             <ListGroup>
@@ -80,21 +93,21 @@ export default class KBBase extends Component {
                                   Item 4
                                 </Button>
                               </ListGroup.Item>
-                            </ListGroup>
+                            </ListGroup> 
                           </Card.Body>
                         </Card>
-                      </Col>
+                      </Col> */}
                       <Col className="p-0">
                         <div>
                           <Table>
                             <thead>
                               <tr>
-                                <th>#</th>
                                 <th>Titulo</th>
                                 <th>Descripcion</th>
                                 <th>Autor</th>
                               </tr>
                             </thead>
+                            <this.articles />
                           </Table>
                         </div>
                       </Col>
@@ -108,11 +121,54 @@ export default class KBBase extends Component {
 
         {/* New Item */}
 
-        <Route exact path={`${match.url}/newkb`}>
-        {console.log(match.url)}
-          <NuevoArticulo/>
+        <Route path={`${match.url}/newkb`}>
+          <NuevoArticulo
+            userName={this.props.userName}
+            token={this.props.token}
+          />
+        </Route>
+
+        {/* Render Item */}
+        <Route exact path={`${match.url}/:_id`}>
+          <this.oneArticle/>
         </Route>
       </Switch>
     );
+  }; //.
+
+  oneArticle =  () => {
+    const kbservice = new KbService();
+    let { _id } = useParams();
+    return <Article _id={_id}/>;
   };
-}
+
+  articles = () => {
+    const history = useHistory();
+    const match = useRouteMatch();
+    if (this.state.articles.length) {
+      return (
+        <tbody>
+          {this.state.articles.map(articles => (
+            <tr key={articles._id}>
+              <td>{articles.title}</td>
+              <td>{articles.description}</td>
+              <td>{articles.author}</td>
+              <td>
+                <Button
+                  onClick={() => {
+                    history.push(`${match.url}/${articles._id}`);
+                  }}
+                >
+                  Ver
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
+  }; //.
+
+} //.

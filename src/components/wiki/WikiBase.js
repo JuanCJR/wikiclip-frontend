@@ -5,15 +5,20 @@ import Container from "react-bootstrap/Container";
 import NavBarBase from "../NavBar/NavBarBase";
 import { Card } from "react-bootstrap";
 import { Switch, Route, useRouteMatch, useParams } from "react-router-dom";
-import BKBase from "../BaseConocimiento/KBBase";
+import KBBase from "../BaseConocimiento/KBBase";
 
 export default class WikiBase extends Component {
+  
+
+
   render() {
     return <this.wiki />;
   }
 
   wiki = () => {
     let match = useRouteMatch();
+    const userName = this.props.userName;
+
     return (
       <Container fluid className="p-0">
         {/* SWITCH CONDICIONAL */}
@@ -73,7 +78,8 @@ export default class WikiBase extends Component {
           {/* Ruteo a base de conocimiento */}
           <Route path={`${match.url}/kbbase`}>
             <NavBarBase />
-            <BKBase />
+           
+            <KBBase userName={userName} token={this.props.token}/>
           </Route>
           {/* Ruteo a Aplicativos */}
           <Route path={`${match.url}/:aplicativo`}>

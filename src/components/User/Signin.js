@@ -6,30 +6,38 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 // import Image from "react-bootstrap/Image";
-import { Navbar, FormGroup,Image } from "react-bootstrap";
+import { Navbar, FormGroup, Image } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import UserService from "../services/UserService";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Avatar from "@material-ui/core/Avatar";
+import MenuItem from "@material-ui/core/MenuItem";
+
+const userService = new UserService();
 export default class Signin extends Component {
   state = {
-    Name: "",
-    Passwd: "",
-    Area: ""
+    userName: "",
+    password: "",
+    access: ""
   };
 
   onChangeName = e => {
     this.setState({
-      Name: e.target.value
+      userName: e.target.value
     });
   }; //.
 
   onChangePasswd = e => {
     this.setState({
-      Passwd: e.target.value
+      password: e.target.value
     });
   }; //.
 
   onChangeArea = e => {
     this.setState({
-      Area: e.target.value
+      access: e.target.value
     });
   };
   authButton = () => {
@@ -37,9 +45,15 @@ export default class Signin extends Component {
 
     return (
       <Button
-        variant="dark"
-        onClick={() => {
-          history.push("/wiki" + this.state.Area);
+        variant="info"
+        style={{width:"100%"}}
+        onClick={async () => {
+          let userData = await userService.Signin(
+            this.state.userName,
+            this.state.password
+          );
+          this.props.rescueData(userData.user.userName, userData.token,true);
+          history.push("/wiki" + this.state.access);
         }}
       >
         Entrar
@@ -53,40 +67,21 @@ export default class Signin extends Component {
 
   componentDidMount() {
     this.setState({
-      Area: document.getElementById("txtArea").value
+      access: document.getElementById("txtArea").value
     });
   }
 
   render() {
     return (
-      <Container fluid className="p-0">
+      <Container className="p-0">
         <Row>
           <Col>
-            <Navbar
-            style={{height:"42px"}}
-              bg="info"
-              variant="dark"
-              className="customBackground shadowCard"
-              expand="lg"
-              //   style={{ backgroundColor: "#19a4c7" }}
-            >
-              <Navbar.Brand>
-                <Image
-                  alt="React Boostrap logo"
-                  className="d-inline-block align-center mb-2"
-                  style={{ width:"40%" }}
-                  src="/img/wWhite.png"
-                  rounded
-                />
-                iki
-              </Navbar.Brand>
-            </Navbar>
+         
           </Col>
         </Row>
-
         <Row className="justify-content-md-center mt-5">
-          <Col xs={12} md={3}>
-            <Card
+          <Col className="text-center" xs={12} md={3}>
+            {/* <Card
               className="text-center mb-3 shadowCard"
               style={{
                 borderTopRightRadius: "0.375rem",
@@ -95,43 +90,69 @@ export default class Signin extends Component {
                 marginRight: "0.5rem",
                 marginLeft: "0.5rem"
               }}
-            >
-              <Form onSubmit={this.onSubmit} className="m-2">
-                <Form.Group controlid="Name">
-                  <h3>Inicio de Sesión</h3>
-                  <Form.Label>Usuario</Form.Label>
-                  <Form.Control
-                    onChange={this.onChangeName}
-                    type="text"
-                    placeholder="Ingresar nombre de usuario"
-                    required
-                  ></Form.Control>
-                </Form.Group>
+            > */}
+            <Avatar style={{ marginLeft: "42%", backgroundColor:"#138496" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography className="mt-2" component="h1" variant="h5">
+              Inicio de Sesión
+            </Typography>
 
-                <Form.Group onChange={this.onChangePasswd} controlid="Passwd">
-                  <Form.Label>Contraseña</Form.Label>
-                  <Form.Control
-                    type="password"
-                    placeholder="Contraseña"
-                    required
-                  ></Form.Control>
-                </Form.Group>
+            <Form  onSubmit={this.onSubmit} className="m-0">
+              <Form.Group controlid="Name">
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="userName"
+                  label="Usuario"
+                  name="userName"
+                  autoComplete="text"
+                  autoFocus
+                  required
+                  onChange={this.onChangeName}
+                  required
+                ></TextField>
+              </Form.Group>
 
-                <FormGroup controlid="Area" onChange={this.onChangeArea}>
-                  <Form.Label>Area</Form.Label>
-                  <Form.Control id="txtArea" as="select" required>
-                    <option>Base</option>
-                    <option>Consultoria</option>
-                    <option>Operaciones</option>
-                    <option>Comercial</option>
-                  </Form.Control>
-                </FormGroup>
-                <this.authButton />
-              </Form>
-              <Card.Footer>
+              <Form.Group onChange={this.onChangePasswd} controlid="Passwd">
+                <TextField
+                  className="mt-0"
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Contraseña"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                ></TextField>
+              </Form.Group>
+
+              <FormGroup controlid="Area" onChange={this.onChangeArea}>
+                <TextField
+                  fullWidth
+                  label="Area"
+                  id="txtArea"
+                  variant="outlined"
+                  helperText="Seleccione su area"
+                  select
+                  required
+                  SelectProps={{
+                    native: true
+                  }}
+                >
+                  <option>Comercial</option>
+                </TextField>
+              </FormGroup>
+              <this.authButton />
+            </Form>
+            {/* <Card.Footer>
                 <small className="text-muted">Wiki Clip v.0.1.0</small>
-              </Card.Footer>
-            </Card>
+              </Card.Footer> */}
+            {/* </Card> */}
           </Col>
         </Row>
       </Container>
