@@ -43,6 +43,16 @@ export default class Article extends Component {
       article,
       attachment
     });
+
+    let downloadRoute = await routes.filter(r => (r.Name === "getArticles"));
+    const userName = dataArray[dataArray.length - 2];
+    let data = new FormData();
+    data.append("attachment", attachment);
+    data.append("userName", userName);
+    downloadRoute = downloadRoute[0];
+    const link = document.createElement("a");
+    console.log(downloadRoute.Route)
+    console.log(`${downloadRoute.Route}/${userName}/${attachment}`);
   } //.
   render() {
     return (
@@ -77,18 +87,17 @@ export default class Article extends Component {
               className="customLink"
               onClick={async () => {
                 let downloadRoute = await routes.filter(
-                  r => (r.Name = "getArticles")
+                  r => (r.Name === "getArticles")
                 );
-                downloadRoute = downloadRoute[0];
                 let dataArray = this.state.article.attachment.split("/");
                 const attachment = dataArray[dataArray.length - 1];
                 const userName = dataArray[dataArray.length - 2];
                 let data = new FormData();
                 data.append("attachment", attachment);
                 data.append("userName", userName);
-
+                downloadRoute = downloadRoute[0];
                 const link = document.createElement("a");
-                link.href = `${downloadRoute}/${userName}/${attachment}`;
+                link.href = `${downloadRoute.Route}/${userName}/${attachment}`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
