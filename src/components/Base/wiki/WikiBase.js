@@ -9,8 +9,6 @@ import KBBase from "../BaseConocimiento/KBBase";
 
 export default class WikiBase extends Component {
   
-
-
   render() {
     return <this.wiki />;
   }

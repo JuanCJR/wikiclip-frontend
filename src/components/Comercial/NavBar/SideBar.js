@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
 import { useHistory, useRouteMatch } from "react-router-dom";
 export default class SideBar extends Component {
   //History Button

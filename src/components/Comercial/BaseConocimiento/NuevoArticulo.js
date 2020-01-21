@@ -1,9 +1,7 @@
 import React, { Component, useState } from "react";
 import { Container, Row, Col, Form, Card } from "react-bootstrap";
-import axios from "axios";
 import { useHistory } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KbService from "../services/KbService";

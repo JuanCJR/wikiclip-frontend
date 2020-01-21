@@ -1,14 +1,9 @@
 import React, { Component } from "react";
 import {
-  Switch,
-  Route,
-  useRouteMatch,
-  useParams,
   useHistory
 } from "react-router-dom";
 import KbService from "../services/KbService";
 import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import axios from "axios";
 
 
 export default class Article extends Component {

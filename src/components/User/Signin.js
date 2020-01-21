@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 // import Image from "react-bootstrap/Image";
-import { Navbar, FormGroup, Image } from "react-bootstrap";
+import {FormGroup } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import UserService from "../services/UserService";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Avatar from "@material-ui/core/Avatar";
-import MenuItem from "@material-ui/core/MenuItem";
 
 const userService = new UserService();
 export default class Signin extends Component {

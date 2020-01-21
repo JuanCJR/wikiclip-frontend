@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Home from "./components/Home";
 import Signin from "./components/User/Signin";
-import WikiBase from "./components/wiki/WikiBase";
+//import WikiBase from "./components/wiki/WikiBase";
 import WikiComercial from "./components/Comercial/wiki/WikiComercial";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route,Redirect } from "react-router-dom";
@@ -40,7 +40,7 @@ export default class App extends Component {
           </Route>
           {/* Componente  Wikibase */}
           <Route path="/wikiBase">
-            <WikiBase userName={this.state.userName} token={this.state.token} />
+            {/* <WikiBase userName={this.state.userName} token={this.state.token} /> */}
           </Route>
           {/* Componente  WikiComercial */}
           <Route path="/wikiComercial">
