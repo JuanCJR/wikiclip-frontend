@@ -37,8 +37,13 @@ export default class Article extends Component {
     const kbservice = new KbService();
     let article = await kbservice.renderArticle(this.props._id);
     console.log(article);
-    let dataArray = article.attachment.split("/");
-    let attachment = dataArray[dataArray.length - 1];
+    let dataArray;
+    let attachment;
+    if (article.attachment) {
+      dataArray = article.attachment.split("/");
+      attachment = dataArray[dataArray.length - 1];
+    }
+
     this.setState({
       article,
       attachment
@@ -77,7 +82,7 @@ export default class Article extends Component {
               className="customLink"
               onClick={async () => {
                 let downloadRoute = await routes.filter(
-                  r => (r.Name === "getArticles")
+                  r => r.Name === "getArticles"
                 );
                 let dataArray = this.state.article.attachment.split("/");
                 const attachment = dataArray[dataArray.length - 1];

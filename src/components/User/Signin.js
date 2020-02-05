@@ -50,7 +50,7 @@ export default class Signin extends Component {
             this.state.userName,
             this.state.password
           );
-          this.props.rescueData(userData.user.userName, userData.token,true);
+          this.props.rescueData(userData.user.userName, userData.token,userData.user.area,true);
           history.push("/wiki" + this.state.access);
         }}
       >

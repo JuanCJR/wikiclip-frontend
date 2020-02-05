@@ -5,7 +5,15 @@ import Modal from "react-bootstrap/Modal";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KbService from "../services/KbService";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 export default class NuevoArticulo extends Component {
+  state = {
+    privateOptiones: false
+  };
+
   //Ventana de confirmacion
   confirmWindow = () => {
     const [show, setShow] = useState(false);
@@ -72,6 +80,11 @@ export default class NuevoArticulo extends Component {
     data.append("content", content);
     data.append("attachment", attachment);
     data.append("userName", this.props.userName);
+    data.append("area", this.props.area);
+    data.append("groups","Comercial");
+    data.append("type","public");
+    data.append("user","");
+
     await kbservice.newArticle(data);
 
     // const article = await axios.post(
@@ -84,6 +97,38 @@ export default class NuevoArticulo extends Component {
     //   }
     // );
   };
+  permissions = () => {
+    return (
+      <>
+        <Form.Group controlId="txtPermissions">
+          <input
+            type="radio"
+            onChange={() => {
+              this.setState({
+                privateOptiones: false
+              });
+            }}
+            name="permissions"
+            value="Publico"
+          />
+          Publico <br></br>
+          <input
+            type="radio"
+            onChange={() => {
+              this.setState({
+                privateOptiones: true
+              });
+            }}
+            name="permissions"
+            value="Privado"
+          />
+          Privado <br></br>
+          {this.state.privateOptiones ? <div>privado</div> : <></>}
+        </Form.Group>
+      </>
+    );
+  };
+
   render() {
     return (
       <Container fluid>
@@ -132,6 +177,8 @@ export default class NuevoArticulo extends Component {
                       variant="outlined"
                     />
                   </Form.Group>
+                  {/* Form group autorizaciones */}
+                  {/* <this.permissions /> */}
                   {/* Form group categoria */}
                   <Form.Group controlId="txtCategoria">
                     <TextField

@@ -43,7 +43,7 @@ export default class BaseConocimiento extends Component {
   async componentDidMount() {
     const kbservice = new KbService();
 
-    const articles = await kbservice.renderArticles(1, this.state.category);
+    const articles = await kbservice.renderArticles(1, this.state.category,this.props.userName);
     this.setState({
       articles
     });
@@ -52,7 +52,7 @@ export default class BaseConocimiento extends Component {
   filterCategory = async category => {
     const kbservice = new KbService();
 
-    const articles = await kbservice.renderArticles(1, category);
+    const articles = await kbservice.renderArticles(1, category,this.props.userName);
     if (articles.length > 0) {
       this.setState({
         articles,
@@ -65,7 +65,7 @@ export default class BaseConocimiento extends Component {
     const kbservice = new KbService();
     const search = document.getElementById("txtSearch").value;
     console.log(search);
-    const articles = await kbservice.searchArticle(1, "all", search);
+    const articles = await kbservice.searchArticle(1, "all", search,this.props.userName);
     console.log(articles)
     this.setState({
       articles,
@@ -79,7 +79,8 @@ export default class BaseConocimiento extends Component {
       const kbservice = new KbService();
       const articles = await kbservice.renderArticles(
         this.state.nro + 1,
-        this.state.category
+        this.state.category,
+        this.props.userName
       );
       this.setState({
         articles,
@@ -93,7 +94,8 @@ export default class BaseConocimiento extends Component {
       const kbservice = new KbService();
       const articles = await kbservice.renderArticles(
         this.state.nro - 1,
-        this.state.category
+        this.state.category,
+        this.props.userName
       );
       console.log(this.state.nro--);
       this.setState({
@@ -249,10 +251,11 @@ export default class BaseConocimiento extends Component {
         {/* Nuevo articulo */}
         <Route path={`${match.url}/newkb`}>
           <NuevoArticulo
+            area={this.props.area}
             userName={this.props.userName}
             token={this.props.token}
           />
-          {console.log(this.props.userName)}
+          
         </Route>
 
         {/* Articulo individual */}
@@ -300,7 +303,7 @@ export default class BaseConocimiento extends Component {
         </TableBody>
       );
     } else {
-      return <div>Loading...</div>;
+      return <div><h1>No se han encontrado articulos.</h1></div>;
     }
   }; //.
 }

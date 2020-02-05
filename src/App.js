@@ -10,14 +10,16 @@ export default class App extends Component {
   state = {
     userName: "",
     token: "",
-    isLoggedIn: false
+    isLoggedIn: false,
+    area:""
   };
 
-  rescueData = (userName, token, isLoggedIn) => {
+  rescueData = (userName, token,area, isLoggedIn) => {
     this.setState({
       userName,
       token,
-      isLoggedIn
+      isLoggedIn,
+      area
     });
   }; //
   changeIsLoggedIn = state => {
@@ -47,6 +49,7 @@ export default class App extends Component {
            {this.state.isLoggedIn ?<WikiComercial
               userName={this.state.userName}
               token={this.state.token}
+              area={this.state.area}
               isLoggedIn={this.state.isLoggedIn}
               changeIsLoggedIn={this.changeIsLoggedIn}
             />

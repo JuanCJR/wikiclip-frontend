@@ -40,7 +40,7 @@ export default class WikiComercial extends Component {
           </Container>
         </Route>
         <Route path={`${match.url}/kbcomercial`}>
-          <BaseConocimiento userName={userName}/>
+          <BaseConocimiento area={this.props.area} userName={userName}/>
         </Route>
       </Switch>
     );

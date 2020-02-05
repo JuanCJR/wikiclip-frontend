@@ -2,10 +2,11 @@ import routes from "../routes/routes";
 import axios from "axios";
 
 class KbService {
-  async renderArticles(nro, category) {
+  async renderArticles(nro, category,userName) {
     let data = new FormData();
     data.append("nro", nro);
     data.append("category", category);
+    data.append("userName",userName);
     let route = await routes.filter(r => r.Name === "getArticles");
     let articles = await axios.post(route[0].Route, data);
 
@@ -19,11 +20,13 @@ class KbService {
     return article.data;
   }
 
-  async searchArticle(nro, category, search) {
+  async searchArticle(nro, category, search,userName) {
     let data = new FormData();
     data.append("nro", nro);
     data.append("category", category);
     data.append("search", search);
+    data.append("userName",userName);
+
     let route = await routes.filter(r => r.Name === "getArticles");
     let articles = await axios.post(route[0].Route, data);
     return articles.data;
